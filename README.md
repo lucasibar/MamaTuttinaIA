@@ -1,189 +1,103 @@
-# MamaTuttinaIA
-declaro-recuerdo-distingo-observo
+[...]  
 
+**User Flows (Flujos de Usuario):**
 
-Nombre del Proyecto: Mama Tuttina IA
+1. **Inicio del ciclo**
+   - Usuario abre la app → entra al chat con IA → declara compromisos → recibe acciones generadas con horarios.
 
-Descripción General:
-Este proyecto es una aplicación móvil centrada en el acompañamiento de procesos personales a través del coaching, con integración de inteligencia artificial para brindar una experiencia guiada, personalizada y profunda. El sistema permite que el usuario declare sus objetivos, reciba acompañamiento diario, registre emociones y síntomas, y finalmente reciba un informe generado por IA con recomendaciones concretas basadas en su progreso real.
+2. **Seguimiento diario**
+   - Usuario abre la app → ve snackbars activos con acciones del día → marca completados o agrega mensaje nuevo.
 
-Problemática que resuelve:
-Muchas personas desean mejorar aspectos de su vida (salud, emociones, finanzas, hábitos), pero les cuesta mantener el foco y registrar sus avances. Esta app ofrece una estructura simple pero poderosa, que combina acompañamiento, reflexión y tecnología para ayudar al usuario a sostener sus compromisos.
+3. **Registro emocional o físico**
+   - Usuario accede al menú → selecciona "Registrar emoción" o "Registrar síntoma" → completa formulario breve.
 
-Flujo de uso principal:
+4. **Registro de alimentación**
+   - Usuario accede a sección de comidas → registra lo que comió en una entrada diaria.
 
-Declaración inicial: El usuario conversa con una IA que lo ayuda a declarar de 1 a 3 compromisos para los próximos 14 días.
+5. **Integración con wearable**
+   - Usuario conecta smartwatch en la sección de ajustes → app comienza a sincronizar automáticamente datos de sueño, pasos, etc.
 
-Generación de acciones y recordatorios: La IA transforma estos compromisos en acciones concretas con horarios sugeridos. Estos se muestran como snackbars con botón de "completado".
+6. **Informe final**
+   - Se cumple el ciclo de 14 días → si hay >80% de acciones cumplidas → IA genera informe personalizado → se muestra en pantalla y se guarda en historial.
 
-Seguimiento diario: El usuario recibe recordatorios diarios, puede marcar acciones como completadas y agregar nuevos mensajes.
+---
 
-Registro de datos: Durante los 14 días, el usuario puede registrar emociones, síntomas, y comidas. También se integran datos de wearables (opcional).
+**Wireframes o Mockups:**
 
-Evaluación final: Si el usuario completa más del 80% de sus acciones, se dispara una IA que analiza todos los datos y genera un informe personalizado con recomendaciones para el siguiente ciclo.
+(Pendientes de realizar visualmente en herramienta como Figma, Penpot o Whimsical. A continuación, estructura sugerida de pantallas)
 
-Funcionalidades principales:
+1. **Pantalla de bienvenida y autenticación**
+2. **Pantalla principal de ciclo activo (con snackbars de acciones)**
+3. **Chat de inicio de ciclo con IA**
+4. **Pantalla de registro emocional/síntomas**
+5. **Pantalla de registro de comidas**
+6. **Panel de configuración e integración con wearables**
+7. **Pantalla de informe final con acceso a historial**
 
-Chat de declaración con IA.
+---
 
-Generación de acciones automáticas (JSON estructurado).
+**Arquitectura Técnica Detallada:**
 
-Recordatorios tipo snackbar con horarios.
+- **Frontend (React Native)**
+  - Estructura de carpetas modular por features
+  - Navegación stack + bottom tabs
+  - Context API o Redux para estado global
 
-Registro de emociones, síntomas y alimentación.
+- **Backend (NestJS)**
+  - Módulos separados por dominio (usuario, hábitos, emociones, IA)
+  - Controladores REST y servicios conectados a la base de datos con Prisma
+  - Endpoints para:
+    - Guardar compromisos
+    - Registrar emociones, síntomas, comidas
+    - Marcar acciones como completadas
+    - Disparar generación de informes IA
 
-Integración con datos de wearable.
+- **Base de Datos (PostgreSQL)**
+  - Tablas: usuarios, ciclos, acciones, emociones, síntomas, comidas, informes, datos_wearable
 
-IA de análisis final que genera informe holístico.
+- **IA**
+  - OpenAI (chat de inicio + generación de informe)
+  - LangChain para estructuración del JSON y gestión de contexto
 
-Casos de uso de IA:
+- **Integraciones externas**
+  - Google Fit / Apple Health API para recolección biométrica
+  - Supabase para autenticación (opcional)
 
-IA inicial tipo coach: guia una declaración de objetivos y devuelve estructura de acciones.
+---
 
-IA evaluadora: analiza datos estructurados (cumplimiento, emociones, síntomas, dieta, wearable) y genera un informe profesional con recomendaciones.
+**Roadmap y MVP:**
 
-Arquitectura técnica (resumen):
+**MVP (versión inicial):**
+- Chat de inicio con IA y generación de acciones
+- Snackbars con botón de completado
+- Registro de emociones, síntomas y comidas
+- Informe final generado por IA
+- Sincronización simple con smartwatch (fase beta)
 
-Frontend: React Native o Flutter para app móvil.
+**Futuras versiones:**
+- Exportación de informes en PDF
+- Comunidad interna con interacción
+- Visualización de progreso en gráficos
+- Entrenamiento de modelo propio con datos históricos
+- Versión web complementaria
 
-Backend: Node.js con NestJS o Express.
+---
 
-Base de datos: PostgreSQL.
+**Testing y Validación:**
+- Testeo de funcionalidades en TestFlight / Android Beta
+- Pruebas con 5-10 usuarios reales (Clara, Lucas, Sofía)
+- Encuesta de satisfacción por ciclo
+- Validación técnica: pruebas unitarias backend, pruebas end-to-end frontend con Cypress o Detox
 
-IA: OpenAI API (GPT-4), LangChain o similar.
+---
 
-Integraciones: API de wearable (Google Fit, Apple Health, etc.)
+**Informe Final / Presentación del Proyecto:**
 
-Stack sugerido:
+Incluye este documento como base, complementado con:
+- Capturas de pantalla del prototipo
+- Video demo de 1-2 minutos del flujo principal
+- Repositorio GitHub con código y README detallado
+- Pitch deck de 5 slides (opcional para incubadoras o concursos)
 
-React Native
+---
 
-NestJS
-
-PostgreSQL
-
-OpenAI / LangChain
-
-Prisma (ORM)
-
-Supabase (opcional para auth y datos)
-
-Posibilidades de evolución:
-
-Entrenamiento de modelo propio según patrones recolectados.
-
-Modo "coach compartido" para parejas o equipos.
-
-Historial comparativo entre ciclos.
-
-Comunidad y soporte entre usuarios.
-
-Exportación de informes para terapeutas o profesionales de salud.
-
-Valor diferencial:
-Este proyecto no solo demuestra el uso de inteligencia artificial, sino que también evidencia una comprensión profunda del coaching, la salud emocional y el diseño centrado en el usuario. Integra tecnología y humanidad, con propósito.
-
-Ideal para:
-
-Portafolio profesional.
-
-Demostración de uso aplicado de IA.
-
-Presentaciones en incubadoras o fondos con enfoque en salud, bienestar o impacto social.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1. Visión del Producto ✅
-¿Qué es, a quién está dirigido, qué problema resuelve, y cómo se diferencia?
-
-✅ Ya está incluido en el documento: visión, problemática, valor diferencial.
-
-2. Investigación y Benchmarking 🔜
-¿Qué soluciones similares existen? ¿Qué hace tu proyecto diferente o mejor?
-
-➡️ Te puedo ayudar a armar una comparación con apps como Fabulous, Headspace, MyFitnessPal, etc.
-
-3. User Personas 🔜
-Descripción de perfiles típicos de usuarios: motivaciones, dolores, necesidades.
-
-➡️ Ejemplo:
-
-“Clara, 36 años, mamá y trabajadora, quiere cuidarse pero le falta constancia.”
-
-“Lucas, 33 años, profesional techy que busca mejorar su salud con métricas.”
-
-4. User Stories ✅
-Hechas y categorizadas por módulo. ¡Ya las tenemos!
-
-5. Mapa de Funcionalidades (Feature Map) 🔜
-Lista completa de features agrupadas por secciones de la app (tipo árbol).
-
-6. Flujos de Usuario (User Flows) 🔜
-Diagrama que muestra cómo se mueve el usuario entre pantallas o acciones principales.
-
-7. Wireframes o Mockups 🔜
-Bocetos de cada pantalla con estructura y jerarquía visual.
-
-➡️ Podemos hacerlo juntos o con herramientas como Figma / Whimsical / Penpot.
-
-8. Arquitectura Técnica ✅ (básica, ya definida)
-Frontend, backend, base de datos, API de IA, integraciones.
-
-Podemos detallar:
-
-Estructura de carpetas
-
-Servicios IA
-
-Esquema de base de datos
-
-9. Roadmap y MVP 🔜
-Qué funcionalidades se incluyen en la primera versión funcional (mínimo viable) y qué vendrá después.
-
-10. Diseño de IA / Prompt Engineering ✅
-Cómo se usan los modelos de IA, con prompts detallados y outputs estructurados.
-
-11. Testing y Validación 🔜
-Cómo vas a testear que funcione bien (tests manuales, feedback de usuario, etc.)
-
-12. Informe Final / Presentación del Proyecto 🔜
-Documento resumen para mostrar en portfolio, enviar a incubadoras o agregar a LinkedIn/GitHub.
-
-📌 ¿Qué hacemos ahora?
-Podemos avanzar con lo que más te pinte:
-
-Armar los user personas
-
-Hacer el benchmark y ver en qué sos diferente
-
-Diseñar el feature map
-
-Hacer el user flow en esquema
-
-Detallar la estructura de la base de datos
-
-Armar el roadmap con MVP

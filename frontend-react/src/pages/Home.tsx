@@ -36,12 +36,11 @@ export default function Home() {
         
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center' }}>
           <Button
-            variant="outlined"
-            onClick={() => navigate('/chat-nutricional')}
+            variant="text"
+            onClick={() => navigate('/dietary-info')}
             sx={{
               width: '200px',
               height: '50px',
-              borderColor: 'grey',
               color: 'grey',
               borderRadius: '8px',
               justifyContent: 'center',
@@ -49,7 +48,6 @@ export default function Home() {
               display: 'flex',
               outline: 'none',
               '&:hover': {
-                borderColor: 'black',
                 color: 'black'
               },
               '&:focus': {
@@ -61,12 +59,12 @@ export default function Home() {
           </Button>
           
           <Button
-            variant="outlined"
+            variant="text"
             disabled
             sx={{
               width: '200px',
               height: '50px',
-              borderColor: 'grey',
+              color: 'grey',
               borderRadius: '8px',
               justifyContent: 'center',
               alignItems: 'center',
@@ -77,12 +75,12 @@ export default function Home() {
           </Button>
           
           <Button
-            variant="outlined"
+            variant="text"
             disabled
             sx={{
               width: '200px',
               height: '50px',
-              borderColor: 'grey',
+              color: 'grey',
               borderRadius: '8px',
               justifyContent: 'center',
               alignItems: 'center',

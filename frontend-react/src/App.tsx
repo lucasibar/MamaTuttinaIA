@@ -8,6 +8,7 @@ import LoginForm from './features/auth/components/LoginForm.tsx';
 import RegisterForm from './features/auth/components/RegisterForm.tsx';
 import Home from './pages/Home.tsx';
 import ChatNutricional from './pages/ChatNutricional.tsx';
+import DietaryInfo from './pages/DietaryInfo.tsx';
 import { setUser } from './features/auth/model/authSlice.ts';
 
 function AppRoutes() {
@@ -36,6 +37,7 @@ function AppRoutes() {
       <Route path="/login" element={!isAuthenticated ? <LoginForm /> : <Navigate to="/" />} />
       <Route path="/register" element={!isAuthenticated ? <RegisterForm /> : <Navigate to="/" />} />
       <Route path="/chat-nutricional" element={isAuthenticated ? <ChatNutricional /> : <Navigate to="/login" />} />
+      <Route path="/dietary-info" element={isAuthenticated ? <DietaryInfo /> : <Navigate to="/login" />} />
       <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
     </Routes>
   );

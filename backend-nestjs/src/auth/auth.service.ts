@@ -11,18 +11,46 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.usersService.findByEmail(email);
-    if (user && await bcrypt.compare(password, user.password)) {
-      const { password, ...result } = user;
-      return result;
+    try {
+      const user = await this.usersService.findByEmail(email);
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      
+      if (!isPasswordValid) {
+        throw new UnauthorizedException('Contraseña incorrecta');
+      }
+
+      const { password: _, ...userWithoutPassword } = user;
+      return userWithoutPassword;
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      throw new UnauthorizedException('Usuario no encontrado');
     }
-    return null;
   }
 
   async login(user: any) {
-    const payload = { email: user.email, sub: user.id };
+    if (!user) {
+      throw new UnauthorizedException('Credenciales inválidas');
+    }
+
+    const payload = { 
+      email: user.email, 
+      sub: user.id,
+      nombre: user.nombre,
+      apellido: user.apellido
+    };
+
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(payload, {
+        expiresIn: '5m', // El token expira en 5 minutos
+      }),
+      user: {
+        id: user.id,
+        email: user.email,
+        nombre: user.nombre,
+        apellido: user.apellido
+      }
     };
   }
 } 

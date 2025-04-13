@@ -1,37 +1,56 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { CssBaseline, Container } from '@mui/material';
+import { Provider, useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { RootState } from './app/store';
-import DietForm from './features/diet/components/DietForm';
-import LoginForm from './features/auth/components/LoginForm';
-import RegisterForm from './features/auth/components/RegisterForm';
+import { store } from './app/store.ts';
+import { RootState } from './app/store.ts';
+import LoginForm from './features/auth/components/LoginForm.tsx';
+import RegisterForm from './features/auth/components/RegisterForm.tsx';
+import Home from './pages/Home.tsx';
+import ChatNutricional from './pages/ChatNutricional.tsx';
+import { setUser } from './features/auth/model/authSlice.ts';
 
-function PrivateRoute({ children }: { children: React.ReactNode }) {
+function AppRoutes() {
+  const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
-}
 
-export default function App() {
+  useEffect(() => {
+    // Verificar si hay un token guardado
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    
+    if (token && user) {
+      try {
+        const parsedUser = JSON.parse(user);
+        dispatch(setUser(parsedUser));
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+      }
+    }
+  }, [dispatch]);
+
   return (
-    <Router>
-      <CssBaseline />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <PrivateRoute>
-              <Container component="main" maxWidth="md">
-                <DietForm />
-              </Container>
-            </PrivateRoute>
-          }
-        />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/register" element={<RegisterForm />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/login" element={!isAuthenticated ? <LoginForm /> : <Navigate to="/" />} />
+      <Route path="/register" element={!isAuthenticated ? <RegisterForm /> : <Navigate to="/" />} />
+      <Route path="/chat-nutricional" element={isAuthenticated ? <ChatNutricional /> : <Navigate to="/login" />} />
+      <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
+    </Routes>
   );
 }
+
+function App() {
+  return (
+    <Provider store={store}>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </Provider>
+  );
+}
+
+export default App;
 
 

@@ -11,6 +11,9 @@ const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
 const users_module_1 = require("./users/users.module");
+const auth_module_1 = require("./auth/auth.module");
+const app_controller_1 = require("./app.controller");
+const chat_module_1 = require("./chat/chat.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -24,12 +27,15 @@ exports.AppModule = AppModule = __decorate([
                 port: parseInt(process.env.DB_PORT) || 5432,
                 username: process.env.DB_USERNAME || 'postgres',
                 password: process.env.DB_PASSWORD || 'postgres',
-                database: process.env.DB_NAME || 'dietas',
+                database: process.env.DB_NAME || 'mmttia',
                 entities: [__dirname + '/**/*.entity{.ts,.js}'],
                 synchronize: true,
             }),
             users_module_1.UsersModule,
+            auth_module_1.AuthModule,
+            chat_module_1.ChatModule,
         ],
+        controllers: [app_controller_1.AppController],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

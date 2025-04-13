@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
+const family_member_entity_1 = require("./family-member.entity");
 let User = class User {
 };
 exports.User = User;
@@ -38,6 +39,46 @@ __decorate([
     (0, typeorm_1.Column)({ default: true }),
     __metadata("design:type", Boolean)
 ], User.prototype, "activo", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'enum', enum: ['masculino', 'femenino', 'otro'] }),
+    __metadata("design:type", String)
+], User.prototype, "sexo", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], User.prototype, "edad", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], User.prototype, "peso", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], User.prototype, "altura", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'enum', enum: ['muy_activo', 'activo', 'poco_activo', 'sedentario'] }),
+    __metadata("design:type", String)
+], User.prototype, "actividad_fisica", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'jsonb', nullable: true }),
+    __metadata("design:type", Object)
+], User.prototype, "horario_laboral", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], User.prototype, "comidas_dia", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'enum', enum: ['diario', 'semanal', 'quincenal', 'esporadico'] }),
+    __metadata("design:type", String)
+], User.prototype, "frecuencia_compras", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: false }),
+    __metadata("design:type", Boolean)
+], User.prototype, "vive_solo", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => family_member_entity_1.FamilyMember, familyMember => familyMember.user),
+    __metadata("design:type", Array)
+], User.prototype, "familiares", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

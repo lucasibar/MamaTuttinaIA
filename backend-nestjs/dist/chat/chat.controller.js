@@ -11,16 +11,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var ChatController_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatController = void 0;
 const common_1 = require("@nestjs/common");
-const chat_service_1 = require("./chat.service");
-let ChatController = class ChatController {
-    constructor(chatService) {
-        this.chatService = chatService;
+const chat_dto_1 = require("./dto/chat.dto");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
+let ChatController = ChatController_1 = class ChatController {
+    constructor() {
+        this.logger = new common_1.Logger(ChatController_1.name);
     }
-    async handleMessage(body) {
-        return this.chatService.processMessage(body.message);
+    async handleChat(chatDto) {
+        console.log('Received chat data:', JSON.stringify(chatDto, null, 2));
+        this.logger.log('Received chat data:', JSON.stringify(chatDto, null, 2));
+        const response = {
+            message: 'Información recibida correctamente',
+            data: chatDto
+        };
+        return response;
     }
 };
 exports.ChatController = ChatController;
@@ -28,11 +36,11 @@ __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [chat_dto_1.ChatDto]),
     __metadata("design:returntype", Promise)
-], ChatController.prototype, "handleMessage", null);
-exports.ChatController = ChatController = __decorate([
-    (0, common_1.Controller)('chat'),
-    __metadata("design:paramtypes", [chat_service_1.ChatService])
+], ChatController.prototype, "handleChat", null);
+exports.ChatController = ChatController = ChatController_1 = __decorate([
+    (0, common_1.Controller)('/chat'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard)
 ], ChatController);
 //# sourceMappingURL=chat.controller.js.map

@@ -80,7 +80,7 @@ export default function DietaryInfo() {
     dispatch(removeMealTime(time));
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     const dietaryInfo = {
       mealTimes,
       shoppingFrequency,
@@ -88,9 +88,43 @@ export default function DietaryInfo() {
       exerciseDuration,
       exerciseFrequency
     };
-    console.log('Dietary Information:', JSON.stringify(dietaryInfo, null, 2));
-    setConfirmationDialogOpen(false);
-    navigate('/');
+
+    // Mostrar en consola
+    console.log('Información a enviar:', JSON.stringify(dietaryInfo, null, 2));
+
+    try {
+      // Obtener el token del localStorage
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        console.error('No authentication token found');
+        return;
+      }
+
+      // Configurar los headers con el token
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      };
+
+      // Enviar al backend con los headers
+      const response = await axios.post('http://localhost:3001/chat', dietaryInfo, config);
+      console.log('Respuesta del servidor:', response.data);
+      setConfirmationDialogOpen(false);
+      navigate('/');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Error en la petición:', {
+          status: error.response?.status,
+          data: error.response?.data,
+          headers: error.response?.headers
+        });
+      } else {
+        console.error('Error al enviar la información:', error);
+      }
+    }
   };
 
   const handleReject = () => {
@@ -310,7 +344,7 @@ export default function DietaryInfo() {
           width: '100%'
         }}>
           <Button
-            onClick={() => setConfirmationDialogOpen(true)}
+            onClick={handleConfirm}
             sx={{ 
               color: 'grey',
               fontWeight: 'bold',

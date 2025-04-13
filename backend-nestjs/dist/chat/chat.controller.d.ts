@@ -1,10 +1,8 @@
-import { ChatService } from './chat.service';
+import { ChatDto } from './dto/chat.dto';
 export declare class ChatController {
-    private readonly chatService;
-    constructor(chatService: ChatService);
-    handleMessage(body: {
+    private readonly logger;
+    handleChat(chatDto: ChatDto): Promise<{
         message: string;
-    }): Promise<{
-        message: string;
+        data: ChatDto;
     }>;
 }

@@ -1,12 +1,21 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { ChatService } from './chat.service';
+import { Controller, Post, Body, Logger, UseGuards } from '@nestjs/common';
+import { ChatDto } from './dto/chat.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@Controller('chat')
+@Controller('/chat')
+@UseGuards(JwtAuthGuard)
 export class ChatController {
-  constructor(private readonly chatService: ChatService) {}
+  private readonly logger = new Logger(ChatController.name);
 
   @Post()
-  async handleMessage(@Body() body: { message: string }) {
-    return this.chatService.processMessage(body.message);
+  async handleChat(@Body() chatDto: ChatDto) {
+    console.log('Received chat data:', JSON.stringify(chatDto, null, 2));
+    this.logger.log('Received chat data:', JSON.stringify(chatDto, null, 2));
+    const response = {
+      message: 'Información recibida correctamente',
+      data: chatDto
+    };
+
+    return response;
   }
 } 
